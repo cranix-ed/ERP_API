@@ -384,6 +384,7 @@ GO
 ------------------------------------------------------------
 CREATE TABLE TaiKhoan (
     MaNV INT PRIMARY KEY,
+    Username VARCHAR(100) NOT NULL,
     Pass NVARCHAR(100) NOT NULL,
     HoTen NVARCHAR(100),
     QuyenTruyCap NVARCHAR(50),
@@ -541,12 +542,14 @@ GO
 ------------------------------------------------------------
 -- 8️ TÀI KHOẢN
 ------------------------------------------------------------
-INSERT INTO TaiKhoan (MaNV, Pass, HoTen, QuyenTruyCap)
+INSERT INTO TaiKhoan (MaNV, Username, Pass, HoTen, QuyenTruyCap)
 VALUES
-(1, N'Anh@123', N'Nguyễn Minh Anh', N'User'),
-(2, N'Mai@123', N'Lê Thị Mai', N'Manager'),
-(3, N'Dung@123', N'Phạm Văn Dũng', N'Admin');
+(1, 'admin', N'admin', N'Nguyễn Minh Anh', N'Quản trị viên'),
+(2, 'vu.pham', N'@Vu12345', N'Phạm Quang Vũ', N'Kế toán'),
+(3, 'binh.le', N'@BinhKho', N'Lê Thanh Bình', N'Thủ kho'),
+(5, 'huong.tran', N'@HuongMua', N'Trần Mai Hương', N'Nhân viên thu mua');
 GO
+
 
 ------------------------------------------------------------
 -- 9️ KỶ LUẬT - KHEN THƯỞNG
@@ -593,7 +596,6 @@ GO
 -- =======================================================
 -- TRIGGER ĐỒNG BỘ NHÂN VIÊN
 -- =======================================================
-
 
 
 
@@ -745,92 +747,5 @@ CREATE TABLE HopDongCungUng (
 );
 GO
 
-----------------------------
--- INSERT DATASET
-----------------------------
-USE QuanLyNhaCungCap;
-GO
 
-------------------------------------------------------------
---  NHÂN VIÊN
-------------------------------------------------------------
-INSERT INTO NhanVien (HoTen, GioiTinh, NgaySinh, DiaChi, CCCD, STK, NganHang)
-VALUES
-(N'Nguyễn Thị Hạnh', N'Nữ', '1985-07-12', N'25 Nguyễn Văn Cừ, Quảng Ngãi', N'024125678901', '012345678912', N'Vietcombank'),
-(N'Phạm Quang Vũ', N'Nam', '1990-03-18', N'KCN Quảng Phú, Quảng Ngãi', N'024145678912', '045678912345', N'BIDV'),
-(N'Lê Thanh Bình', N'Nam', '1992-11-09', N'12 Nguyễn Công Trứ, Đà Nẵng', N'024178912356', '078912345678', N'Techcombank'),
-(N'Trần Mai Hương', N'Nữ', '1988-01-22', N'89 Nguyễn Huệ, Quy Nhơn', N'024199988877', '091234567890', N'ACB');
-GO
-
-------------------------------------------------------------
---  NHÀ CUNG CẤP
-------------------------------------------------------------
-INSERT INTO NhaCC (TenNCC, MaSoThue, SDT, Email, Fax, Website, DiaChi, TrangThai)
-VALUES
-(N'Công ty TNHH Nông sản Việt Nông', N'4001234567', '0905123456', 'contact@vietnong.vn', '02553888888', 'www.vietnong.vn', N'KCN Tịnh Phong, Quảng Ngãi', N'Hoạt động'),
-(N'Công ty CP Bao bì Bình Minh', N'3109876543', '0912233445', 'info@baobibinhminh.vn', '02363777777', 'www.baobibinhminh.vn', N'KCN Hòa Khánh, Đà Nẵng', N'Hoạt động'),
-(N'Công ty TNHH Đường Lam Sơn', N'2809998887', '0906345678', 'sales@duonglamson.vn', '02223888888', 'www.duonglamson.vn', N'Thọ Xuân, Thanh Hóa', N'Hoạt động'),
-(N'Công ty Vận tải Phú Mỹ', N'0301122334', '0908777666', 'vanchuyen@phumytrans.vn', '02839393939', 'www.phumytrans.vn', N'Bình Dương', N'Hoạt động');
-GO
-
-------------------------------------------------------------
---  NGUYÊN VẬT LIỆU
-------------------------------------------------------------
-INSERT INTO NguyenVatLieu (TenNVL, DonViTinh, SoLuong, DonGia)
-VALUES
-(N'Đậu nành hạt (loại A)', N'Kg', 20000, 28000),
-(N'Đường tinh luyện', N'Kg', 5000, 22000),
-(N'Bao bì hộp giấy Tetra Pak', N'Cái', 100000, 550),
-(N'Nắp chai nhựa PE', N'Cái', 50000, 180),
-(N'Chai nhựa PET 500ml', N'Cái', 80000, 600);
-GO
-
-------------------------------------------------------------
---  HÓA ĐƠN NHẬP
-------------------------------------------------------------
-INSERT INTO HoaDonNhap (MaNV, MaNCC, MaNVL, SoLuongYeuCau, SoLuongThucNhan, NgayNhap, HSD, LoSX, Tong)
-VALUES
-(1, 1, 1, 20000, 19800, '2025-08-25', '2026-02-25', N'VN-SOY-0825', 19800 * 28000),
-(2, 3, 2, 5000, 5000, '2025-08-27', '2026-08-27', N'LS-SUGAR-08', 5000 * 22000),
-(3, 2, 3, 100000, 100000, '2025-08-28', NULL, N'BM-BOX-0825', 100000 * 550),
-(4, 4, 5, 80000, 79500, '2025-08-29', NULL, N'PM-BOTTLE-0825', 79500 * 600);
-GO
-
-------------------------------------------------------------
---  CHI TIẾT HÓA ĐƠN
-------------------------------------------------------------
-INSERT INTO ChiTietHoaDon (MaHDN, MaNV, MaNVL, SoLuongYeuCau, SoLuongNhan, DonViTinh, DonGia)
-VALUES
-(1, 1, 1, 20000, 19800, N'Kg', 28000),
-(2, 2, 2, 5000, 5000, N'Kg', 22000),
-(3, 3, 3, 100000, 100000, N'Cái', 550),
-(4, 4, 5, 80000, 79500, N'Cái', 600);
-GO
-
-------------------------------------------------------------
---  PHIẾU NHẬP HÀNG
-------------------------------------------------------------
-INSERT INTO PhieuNhapHang (NgayTao, SoLuong, MaNCC, MaNV, MaNVL, DonGia, MaHD)
-VALUES
-('2025-08-25', 19800, 1, 1, 1, 28000, 1),
-('2025-08-27', 5000, 3, 2, 2, 22000, 2),
-('2025-08-28', 100000, 2, 3, 3, 550, 3),
-('2025-08-29', 79500, 4, 4, 5, 600, 4);
-GO
-
-------------------------------------------------------------
---  HỢP ĐỒNG CUNG ỨNG
-------------------------------------------------------------
-INSERT INTO HopDongCungUng (MaNCC, MaNV, LoaiHinhCC, NgayKy, KetThucHopDong, TriGia, MoTa, MaNVL)
-VALUES
-(1, 1, N'Cung cấp định kỳ', '2025-01-01', '2025-12-31', 554400000, N'Hợp đồng cung cấp đậu nành hạt cho nhà máy Vinasoy Quảng Ngãi', 1),
-(2, 3, N'Cung cấp theo đơn hàng', '2025-03-15', '2025-09-30', 55000000, N'Hợp đồng cung cấp bao bì hộp giấy Tetra Pak cho sản phẩm Fami', 3),
-(3, 2, N'Cung cấp định kỳ', '2025-02-10', '2025-12-31', 110000000, N'Hợp đồng cung cấp đường tinh luyện cho nhà máy sữa Fami Go', 2),
-(4, 4, N'Hợp đồng dịch vụ vận chuyển', '2025-04-01', '2025-12-31', 72000000, N'Hợp đồng vận chuyển nguyên vật liệu từ kho Vinasoy Quảng Ngãi đến nhà máy Bình Dương', 5);
-GO
-
-
--- =============================================
--- TRIGGER CẬP NHẬT TỒN KHO KHI THÊM PHIẾU NHẬP HÀNG
--- =============================================
 

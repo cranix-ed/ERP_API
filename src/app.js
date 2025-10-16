@@ -26,6 +26,7 @@ const ngachLuongRoutes = require('./systems/systemNhanSu/routes/ngachLuongRoutes
 const trinhDoNgoaiNguRoutes = require('./systems/systemNhanSu/routes/trinhDoNgoaiNguRoutes')
 const trinhDoHocVanRoutes = require('./systems/systemNhanSu/routes/trinhDoHocVanRoutes')
 const bangChamCongRoutes = require('./systems/systemNhanSu/routes/bangChamCongRoutes')
+const taiKhoanRoutes = require('./systems/systemNhanSu/routes/taiKhoanRoutes')
 
 // Define routes Nhan Su
 app.use('/systemNhanSu/nhanvien', nhanVienRoutes)
@@ -36,6 +37,7 @@ app.use('/systemNhanSu/ngachluong', ngachLuongRoutes)
 app.use('/systemNhanSu/trinhdongoaingu', trinhDoNgoaiNguRoutes)
 app.use('/systemNhanSu/trinhdohocvan', trinhDoHocVanRoutes)
 app.use('/systemNhanSu/chamcong', bangChamCongRoutes)
+app.use('/systemNhanSu/taikhoan', taiKhoanRoutes)
 
 /* 
 =========KHACH HANG==========
