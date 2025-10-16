@@ -23,7 +23,7 @@ const pool = new sql.ConnectionPool(config)
 const poolConnect = pool.connect()
 
 poolConnect
-	.then(() => console.log('✅ Connected to SQL Server'))
+	.then(() => console.log('✅ Connected to SQL Server Nhan Su'))
 	.catch((err) => console.error('❌ Database Connection Failed!', err))
 
 module.exports = { sql, pool, poolConnect }

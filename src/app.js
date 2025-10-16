@@ -41,8 +41,10 @@ app.use('/systemNhanSu/chamcong', bangChamCongRoutes)
 =========KHACH HANG==========
 */
 const khachHangRoutes = require('./systems/systemKhachHang/routes/khachHangRoutes')
+const donHangRoutes = require('./systems/systemKhachHang/routes/donHangRoutes')
 
 
+app.use('/systemKhachHang/donhang', donHangRoutes)
 app.use('/systemKhachHang/khachhang', khachHangRoutes)
 
 
