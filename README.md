@@ -10,3 +10,9 @@ Run api trong directory `/api/src`
 ``` javascript
 node app.js
 ```
+
+Test api
+```
+curl -X GET http://172.28.32.1:9717/systemNhanSu/nhanvien
+curl -X GET http://172.28.32.1:9717/systemNhanSu/phongban
+```
