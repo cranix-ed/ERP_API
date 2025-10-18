@@ -14,7 +14,7 @@ const getById = async (req, res) => {
     try {
         const data = await nhanVienService.getNhanVienById(req.params.id)
         if (!data)
-            return res.status(404).json({ message: 'Không tìm thấy phòng ban' })
+            return res.status(404).json({ message: 'Không tìm thấy nhân viên' })
         res.setHeader('Content-Type', 'application/json')
 		res.send(JSON.stringify(data, null, 2))
     } catch (err) {

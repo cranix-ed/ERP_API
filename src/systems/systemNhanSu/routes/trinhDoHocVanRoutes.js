@@ -1,11 +1,24 @@
 const express = require('express')
 const router = express.Router()
 const trinhDoHocVanController = require('../controllers/trinhDoHocVanController')
+const checkExists = require('../../../middlewares/checkExists')
 
 router.get('/', trinhDoHocVanController.getAll)
-router.get('/:id', trinhDoHocVanController.getById)
+router.get(
+	'/:id',
+	checkExists('TrinhDoHocVan', 'MaTDHV'),
+	trinhDoHocVanController.getById
+)
 router.post('/', trinhDoHocVanController.create)
-router.put('/:id', trinhDoHocVanController.update)
-router.delete('/:id', trinhDoHocVanController.remove)
+router.put(
+	'/:id',
+	checkExists('TrinhDoHocVan', 'MaTDHV'),
+	trinhDoHocVanController.update
+)
+router.delete(
+	'/:id',
+	checkExists('TrinhDoHocVan', 'MaTDHV'),
+	trinhDoHocVanController.remove
+)
 
 module.exports = router
