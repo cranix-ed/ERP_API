@@ -6,7 +6,6 @@ const getAllKhachHang = async () => {
 	const result = await pool.request().query(`
     SELECT MaKH, TenKH, GioiTinh, NgaySinh, SDT, DiaChi
     FROM KhachHang
-    ORDER BY MaKH DESC
   `)
 	return result.recordset
 }

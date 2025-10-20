@@ -1,4 +1,5 @@
 const { sql, pool, poolConnect } = require('../../../config/dbNhanSu')
+const nhanVienSyncService = require('./nhanVienSyncService')
 
 const getAllNhanVien = async () => {
 	await poolConnect
@@ -45,18 +46,25 @@ const createNhanVien = async (data) => {
 		.input('MaTDNN', sql.Int, data.MaTDNN)
 		.input('MaBac', sql.Int, data.MaBac)
 		.input('SoTaiKhoan', sql.NVarChar, data.SoTaiKhoan)
-		.input('NganHang', sql.NVarChar, data.NganHang).query(`
+		.input('NganHang', sql.NVarChar, data.NganHang)
+		.input('LoaiNV', sql.NVarChar, data.LoaiNV).query(`
 			INSERT INTO NhanVien (
 				HoTen, GioiTinh, NgaySinh, ThuongTru, TamTru, SoCMND, SDT, Email, 
-				MaChucVu, MaPhong, MaTDHV, MaTDNN, MaBac, SoTaiKhoan, NganHang
+				MaChucVu, MaPhong, MaTDHV, MaTDNN, MaBac, SoTaiKhoan, NganHang, LoaiNV
 			) 
 			OUTPUT inserted.MaNV
 			VALUES (
 				@HoTen, @GioiTinh, @NgaySinh, @ThuongTru, @TamTru, @SoCMND, @SDT, @Email,
-				@MaChucVu, @MaPhong, @MaTDHV, @MaTDNN, @MaBac, @SoTaiKhoan, @NganHang
+				@MaChucVu, @MaPhong, @MaTDHV, @MaTDNN, @MaBac, @SoTaiKhoan, @NganHang, @LoaiNV
 			)
 		`)
-	return result.recordset[0].MaNV
+		
+	const newNV = { ...data, MaNV: result.recordset[0].MaNV }
+
+	// Đồng bộ sang hệ thống khác
+	
+
+	return { message: 'Thêm nhân viên thành công', data: newNV }
 }
 
 const updateNhanVien = async (id, data) => {
@@ -97,6 +105,11 @@ const updateNhanVien = async (id, data) => {
 				NganHang = @NganHang
 			WHERE MaNV = @MaNV
 		`)
+
+		const updatedNV = await getNhanVienById(id)
+		await nhanVienSyncService.syncToOtherSystems(updatedNV)
+
+		return { message: 'Cập nhật nhân viên thành công', data: updatedNV }
 }
 
 const deleteNhanVien = async (id) => {
@@ -107,10 +120,49 @@ const deleteNhanVien = async (id) => {
 		.query('DELETE FROM NhanVien WHERE MaNV = @MaNV')
 }
 
+const getNhanVienByEmail = async (email) => {
+	await poolConnect
+	const result = await pool
+		.request()
+		.input('Email', sql.NVarChar, email)
+		.query('SELECT * FROM NhanVien WHERE Email = @Email')
+	return result.recordset[0]
+}
+
+const getNhanVienBySoCMND = async (soCMND) => {
+	await poolConnect
+	const result = await pool
+		.request()
+		.input('SoCMND', sql.NVarChar, soCMND)
+		.query('SELECT * FROM NhanVien WHERE SoCMND = @SoCMND')
+	return result.recordset[0]
+}
+
+const syncNhanVien = async (data) => {
+	let existing = null
+
+	// Kiểm tra nhân viên đã tồn tại chưa (theo Email hoặc SoCMND)
+	if (data.Email) {
+		existing = await getNhanVienByEmail(data.Email)
+	} else if (data.SoCMND) {
+		existing = await getNhanVienBySoCMND(data.SoCMND)
+	}
+
+	// Nếu đã có thì cập nhật, chưa có thì thêm mới
+	if (existing) {
+		await updateNhanVien(existing.MaNV, data)
+	} else {
+		await createNhanVien(data)
+	}
+}
+
 module.exports = {
 	getAllNhanVien,
 	getNhanVienById,
 	createNhanVien,
 	updateNhanVien,
 	deleteNhanVien,
+	getNhanVienByEmail,
+	getNhanVienBySoCMND,
+	syncNhanVien,
 }

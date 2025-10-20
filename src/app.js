@@ -44,15 +44,33 @@ app.use('/systemNhanSu/taikhoan', taiKhoanRoutes)
 */
 const khachHangRoutes = require('./systems/systemKhachHang/routes/khachHangRoutes')
 const donHangRoutes = require('./systems/systemKhachHang/routes/donHangRoutes')
+const nhanVienKHRoutes = require('./systems/systemKhachHang/routes/nhanVienRoutes')
 
 
 app.use('/systemKhachHang/donhang', donHangRoutes)
 app.use('/systemKhachHang/khachhang', khachHangRoutes)
+app.use('/systemKhachHang/nhanvien', nhanVienKHRoutes)
 
 
 /* 
 =========NHA CUNG CAP==========
 */
+const nhaCungCapRoutes = require('./systems/systemNhaCungCap/routes/nhaCungCapRoutes')
+const nhanVienNCCRoutes = require('./systems/systemNhaCungCap/routes/nhanVienRoutes')
+
+app.use('/systemNhaCungCap/nhacungcap', nhaCungCapRoutes)
+app.use('/systemNhaCungCap/nhanvien', nhanVienNCCRoutes)
+
+
+const nhanVienSyncRoutes = require('./systems/systemNhanSu/routes/nhanVienSyncRoutes')
+// const nhanVienNCCSyncRoutes = require('./systems/systemNhaCungCap/routes/nhanVienSyncRoutes')
+// const nhanVienKHSyncRoutes = require('./systems/systemKhachHang/routes/nhanVienSyncRoutes')
+
+// Mount routes
+app.use('/systemNhanSu/nhanviensync', nhanVienSyncRoutes)
+// app.use('/systemNhaCungCap/nhanviensync', nhanVienNCCSyncRoutes)
+// app.use('/systemKhachHang/nhanviensync', nhanVienKHSyncRoutes)
+
 
 app.use(errorHandler)
 

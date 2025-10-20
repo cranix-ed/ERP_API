@@ -56,9 +56,11 @@ function validateNhaCungCap(data) {
 
 	if (
 		data.TrangThai &&
-		!['Hoạt động', 'Ngừng hoạt động'].includes(data.TrangThai)
+		!['Đang hợp tác', 'Ngừng hợp tác', 'Tạm ngừng'].includes(data.TrangThai)
 	)
-		errors.push('Trạng thái chỉ được là "Hoạt động" hoặc "Ngừng hoạt động"')
+		errors.push(
+			'Trạng thái chỉ được là "Đang hợp tác", "Tạm ngừng" hoặc "Ngừng hợp tác"'
+		)
 
 	return errors
 }
@@ -75,7 +77,7 @@ function validateNhanVien(data) {
 	if (data.Email && !isValidEmail(data.Email))
 		errors.push('Email nhân viên không hợp lệ')
 
-	if (!data.SDT && !isValidPhone(data.SDT))
+	if (data.SDT && !isValidPhone(data.SDT))
 		errors.push('Số điện thoại nhân viên không hợp lệ')
 
 	if (data.SoCMND && !isValidCMND(data.SoCMND))
@@ -96,7 +98,7 @@ function validateNhanVien(data) {
 function validateKhachHang(data) {
 	const errors = []
 
-	if (!data.TenKH || data.TenKH.trim() === '')
+	if (!data.HoTen || data.TenKH.trim() === '')
 		errors.push('Tên khách hàng là bắt buộc')
 
 	if (data.SDT && !isValidPhone(data.SDT))

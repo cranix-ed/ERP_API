@@ -35,12 +35,13 @@ GO
 -- =========================
 CREATE TABLE NhanVien (
     MaNV INT IDENTITY(1,1) PRIMARY KEY,
-    TenNV NVARCHAR(100) NOT NULL,
+    HoTen NVARCHAR(100) NOT NULL,
     GioiTinh NVARCHAR(10),
     SDT VARCHAR(15),
     Email VARCHAR(100)
 );
 GO
+
 
 -- =========================
 -- 4. Bảng NhaCungCap
@@ -181,7 +182,7 @@ GO
 ------------------------------------------------------------
 -- 3️ NHÂN VIÊN
 ------------------------------------------------------------
-INSERT INTO NhanVien (TenNV, GioiTinh, SDT, Email)
+INSERT INTO NhanVien (HoTen, GioiTinh, SDT, Email)
 VALUES
 (N'Nguyễn Thị Hoa', N'Nữ', '0988111222', 'hoa.nguyen@shop.vn'),
 (N'Trần Văn Nam', N'Nam', '0977223344', 'nam.tran@shop.vn'),
@@ -382,6 +383,7 @@ GO
 ------------------------------------------------------------
 -- 8. BẢNG TÀI KHOẢN
 ------------------------------------------------------------
+DROP TABLE TaiKhoan
 CREATE TABLE TaiKhoan (
     MaNV INT PRIMARY KEY,
     Username VARCHAR(100) NOT NULL,
@@ -627,13 +629,14 @@ CREATE TABLE NhanVien (
     GioiTinh NVARCHAR(10),
     NgaySinh DATE,
     DiaChi NVARCHAR(200),
-    CCCD NVARCHAR(20),
+    SoCMND NVARCHAR(20),
     MaChucVu INT NULL,
     MaPhong INT NULL,
     STK NVARCHAR(50),
     NganHang NVARCHAR(100)
 );
 GO
+
 
 ------------------------------------------------------------
 -- 2. BẢNG NHÀ CUNG CẤP
@@ -757,7 +760,7 @@ GO
 ------------------------------------------------------------
 -- 1️ NHÂN VIÊN
 ------------------------------------------------------------
-INSERT INTO NhanVien (HoTen, GioiTinh, NgaySinh, DiaChi, CCCD, STK, NganHang)
+INSERT INTO NhanVien (HoTen, GioiTinh, NgaySinh, DiaChi, SoCMND, STK, NganHang)
 VALUES
 (N'Nguyễn Thị Hạnh', N'Nữ', '1985-07-12', N'25 Nguyễn Văn Cừ, Quảng Ngãi', N'024125678901', '012345678912', N'Vietcombank'),
 (N'Phạm Quang Vũ', N'Nam', '1990-03-18', N'KCN Quảng Phú, Quảng Ngãi', N'024145678912', '045678912345', N'BIDV'),
